@@ -15,16 +15,16 @@ Open62541 library for macOS.
   s.author           = { 'Open62541' => 'https://github.com/open62541/open62541' }
 
   s.source = { 
-    :http => 'https://github.com/open62541/open62541/archive/refs/tags/v1.4.11.1.tar.gz'
+    :http => 'https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz'
   }
 
   s.prepare_command = <<-CMD
     pwd
     ls -la
-    curl -L https://github.com/open62541/open62541/archive/refs/tags/v1.4.11.1.tar.gz -o open62541.tar.gz
+    curl -L https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz -o open62541.tar.gz
     tar xzf open62541.tar.gz
-    cd open62541-1.4.11.1
-    cmake -B build -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release
+    cd open62541-79e47f89837bc5e8f710d501e2afcd8ad71b0a28
+    cmake -B build -DUA_LOGLEVEL=100 -DBUILD_SHARED_LIBS=OFF -DUA_ENABLE_INLINABLE_EXPORT=ON -DCMAKE_BUILD_TYPE=Release
     cmake --build build
     mkdir -p ../lib
     cp build/bin/libopen62541.a ../lib/
