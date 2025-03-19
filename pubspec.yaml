@@ -1,7 +1,7 @@
 name: open62541_libs
 description: "Open62541 library for multiple platforms."
 version: 0.0.1
-homepage:
+repository: https://github.com/centroid-is/open62541_libs
 
 environment:
   sdk: ^3.7.0
