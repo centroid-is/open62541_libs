@@ -90,3 +90,34 @@ For help getting started with Flutter, view our
 [online documentation](https://docs.flutter.dev), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+# Important notes
+
+## Macos
+
+Enable networking, otherwise it will fail silently.
+'*.entitlements' file should be in the Runner folder.
+
+```
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+```
+
+## Linux
+
+Tweak the linker in the CMakeLists.txt file to include all symbols from the open62541 library.
+
+```
+# Include all symbols from the open62541 library
+target_link_options(${BINARY_NAME} PRIVATE 
+  "-Wl,--whole-archive" 
+  "${PROJECT_BINARY_DIR}/plugins/open62541_libs/open62541-prefix/src/open62541-build/bin/libopen62541.a"
+  "-Wl,--no-whole-archive"
+)
+# Add the -rdynamic flag to export all symbols of the executable / open62541 library
+set_target_properties(${BINARY_NAME} PROPERTIES
+    ENABLE_EXPORTS ON
+    LINK_FLAGS "-rdynamic"
+)
+```

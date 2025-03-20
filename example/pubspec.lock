@@ -150,9 +150,11 @@ packages:
   open62541_bindings:
     dependency: "direct main"
     description:
-      path: "../../open62541_bindings"
-      relative: true
-    source: path
+      path: "."
+      ref: d37adbdd9a816bc3513ffa58fe107754efe2f6ed
+      resolved-ref: d37adbdd9a816bc3513ffa58fe107754efe2f6ed
+      url: "https://github.com/centroid-is/open62541_bindings.git"
+    source: git
     version: "0.0.0-dev.1"
   open62541_libs:
     dependency: "direct main"

@@ -25,9 +25,6 @@ ExternalProject_Add(open62541
 # Get the build directory for the external project
 ExternalProject_Get_Property(open62541 BINARY_DIR)
 
-# List of absolute paths to libraries that should be bundled with the plugin.
-# This list could contain prebuilt libraries, or libraries created by an
-# external build triggered from this build file.
 set(open62541_libs_bundled_libraries
   "${BINARY_DIR}/bin/libopen62541.a"
   PARENT_SCOPE

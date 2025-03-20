@@ -41,7 +41,7 @@ dependencies:
   open62541_bindings:
     git:
       url: https://github.com/centroid-is/open62541_bindings.git
-      ref: c75f7db69a1c2191fe8696c4c47e1109f8796912
+      ref: d37adbdd9a816bc3513ffa58fe107754efe2f6ed
   logger: ^2.5.0
 
   # The following adds the Cupertino Icons font to your application.
