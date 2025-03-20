@@ -5,18 +5,28 @@ cmake_minimum_required(VERSION 3.10)
 
 # Project-level configuration.
 set(PROJECT_NAME "open62541_libs")
-project(${PROJECT_NAME} LANGUAGES CXX)
+project(${PROJECT_NAME} LANGUAGES C)
 
-# Invoke the build for native code shared with the other target platforms.
-# This can be changed to accommodate different builds.
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_BINARY_DIR}/shared")
+# Download and build open62541
+include(ExternalProject)
+ExternalProject_Add(open62541
+  URL https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz
+  CMAKE_ARGS
+    -DCMAKE_BUILD_TYPE=Release
+    -DUA_LOGLEVEL=100
+    -DBUILD_SHARED_LIBS=OFF
+    -DUA_ENABLE_INLINABLE_EXPORT=ON
+  BUILD_IN_SOURCE 0
+  INSTALL_COMMAND ""
+)
+
+# Get the build directory for the external project
+ExternalProject_Get_Property(open62541 BINARY_DIR)
 
 # List of absolute paths to libraries that should be bundled with the plugin.
 # This list could contain prebuilt libraries, or libraries created by an
 # external build triggered from this build file.
 set(open62541_libs_bundled_libraries
-  # Defined in ../src/CMakeLists.txt.
-  # This can be changed to accommodate different builds.
-  $<TARGET_FILE:open62541_libs>
+  "${BINARY_DIR}/bin/libopen62541.a"
   PARENT_SCOPE
 )

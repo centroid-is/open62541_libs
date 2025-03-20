@@ -39,7 +39,9 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
   open62541_bindings:
-    path: ../../open62541_bindings
+    git:
+      url: https://github.com/centroid-is/open62541_bindings.git
+      ref: c75f7db69a1c2191fe8696c4c47e1109f8796912
   logger: ^2.5.0
 
   # The following adds the Cupertino Icons font to your application.
