@@ -11,6 +11,7 @@ project(${PROJECT_NAME} LANGUAGES C)
 include(ExternalProject)
 ExternalProject_Add(open62541
   URL https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz
+  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release
     -DUA_LOGLEVEL=100
