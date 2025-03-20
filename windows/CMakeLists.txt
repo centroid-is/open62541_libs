@@ -10,8 +10,10 @@ project(${PROJECT_NAME} LANGUAGES C)
 # Download and build open62541
 include(ExternalProject)
 ExternalProject_Add(open62541
-  URL https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz
+  # TODO: wait for this PR to be merged: https://github.com/open62541/open62541/pull/7177
+  URL https://github.com/centroid-is/open62541/archive/50fe223c55c8eafe4937e50104cab35a1514a3a0.tar.gz
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+  BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/open62541"
   CMAKE_ARGS
     -DCMAKE_BUILD_TYPE=Release
     -DUA_LOGLEVEL=100
@@ -26,14 +28,14 @@ ExternalProject_Add(open62541
 ExternalProject_Get_Property(open62541 BINARY_DIR)
 
 if(WIN32)
-  set(RELEASE_LIB "${BINARY_DIR}/open62541-object.dir/Release/open62541-object.lib")
-  set(DEBUG_LIB "${BINARY_DIR}/open62541-object.dir/Debug/open62541-object.lib")
-  
-  if(EXISTS "${RELEASE_LIB}")
-    set(open62541_libs_bundled_libraries "${RELEASE_LIB}" PARENT_SCOPE)
-  else()
-    set(open62541_libs_bundled_libraries "${DEBUG_LIB}" PARENT_SCOPE)
-  endif()
+  set(RELEASE_LIB "${BINARY_DIR}/bin/Release/open62541.lib")
+  set(DEBUG_LIB "${BINARY_DIR}/bin/Debug/open62541.lib")
+  # A BIG TODO, I dont know how to determine which library is used
+  # The release argument above is not used for some reason
+  set(open62541_libs_bundled_libraries
+    "${DEBUG_LIB}"
+    PARENT_SCOPE
+  )
 else()
   set(open62541_libs_bundled_libraries
     "${BINARY_DIR}/bin/libopen62541.a"
