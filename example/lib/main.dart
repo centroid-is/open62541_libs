@@ -66,7 +66,11 @@ void subscriptionInactivityCallback(Pointer<UA_Client> client, int subId, Pointe
 
 void main() {
   // lib = open62541(DynamicLibrary.open('libopen62541.dylib'));
-  lib = open62541(DynamicLibrary.executable());
+  if (Platform.isAndroid) { // android cannot support static linking by design
+    lib = open62541(DynamicLibrary.open('libopen62541.so'));
+  } else {
+    lib = open62541(DynamicLibrary.executable());
+  }
   Pointer<UA_Client> client = lib.UA_Client_new();
   Pointer<UA_ClientConfig> clientConfigPointer = lib.UA_Client_getConfig(client);
   lib.UA_ClientConfig_setDefault(clientConfigPointer);

@@ -138,3 +138,20 @@ target_link_options(${BINARY_NAME} PRIVATE
   "/WHOLEARCHIVE:${open62541_libs_bundled_libraries}"
 )
 ```
+
+## Android
+
+```
+defaultConfig {
+  applicationId = "or app id"
+  minSdk = 24 // CHANGE TO THIS REQUIREMENT BY OPEN62541
+  targetSdk = flutter.targetSdkVersion
+  versionCode = flutter.versionCode
+  versionName = flutter.versionName
+}
+```
+
+Use shared library, android does not support static linking executable
+```
+    lib = open62541(DynamicLibrary.open('libopen62541.so'));
+```
