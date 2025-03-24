@@ -57,18 +57,6 @@ pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-3.0)
 # Application build; see runner/CMakeLists.txt.
 add_subdirectory("runner")
 
-# Include all symbols from the open62541 library
-target_link_options(${BINARY_NAME} PRIVATE 
-  "-Wl,--whole-archive" 
-  "${PROJECT_BINARY_DIR}/plugins/open62541_libs/open62541-prefix/src/open62541-build/bin/libopen62541.a"
-  "-Wl,--no-whole-archive"
-)
-# Add the -rdynamic flag to export all symbols of the executable / open62541 library
-set_target_properties(${BINARY_NAME} PROPERTIES
-  ENABLE_EXPORTS ON
-  LINK_FLAGS "-rdynamic"
-)
-
 # Run the Flutter tool portions of the build. This must not be removed.
 add_dependencies(${BINARY_NAME} flutter_assemble)
 
@@ -138,3 +126,18 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
     COMPONENT Runtime)
 endif()
+
+# NECESSARY EDITS for linux
+# Make sure the open62541 library is built before the binary
+add_dependencies(${BINARY_NAME} open62541)
+# Include all symbols from the open62541 library
+target_link_options(${BINARY_NAME} PRIVATE 
+  "-Wl,--whole-archive" 
+  "${PROJECT_BINARY_DIR}/plugins/open62541_libs/open62541-prefix/src/open62541-build/bin/libopen62541.a"
+  "-Wl,--no-whole-archive"
+)
+# Add the -rdynamic flag to export all symbols of the executable / open62541 library
+set_target_properties(${BINARY_NAME} PROPERTIES
+  ENABLE_EXPORTS ON
+  LINK_FLAGS "-rdynamic"
+)

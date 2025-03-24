@@ -109,6 +109,8 @@ Enable networking, otherwise it will fail silently.
 Tweak the linker in the CMakeLists.txt file to include all symbols from the open62541 library.
 
 ```
+# Make sure the open62541 library is built before the binary
+add_dependencies(${BINARY_NAME} open62541)
 # Include all symbols from the open62541 library
 target_link_options(${BINARY_NAME} PRIVATE 
   "-Wl,--whole-archive" 
