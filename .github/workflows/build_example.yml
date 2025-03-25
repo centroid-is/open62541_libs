@@ -53,7 +53,12 @@ jobs:
       run: flutter pub get
 
     - name: Build Flutter debug app
+      run: flutter build ${{ matrix.target }} --debug --no-codesign
+      if: matrix.target == 'ios'
+
+    - name: Build Flutter debug app
       run: flutter build ${{ matrix.target }} --debug
+      if: matrix.target != 'ios'
 
     - name: Where is the build?
       if: failure() && matrix.os == 'windows-latest'
@@ -62,7 +67,12 @@ jobs:
         Get-ChildItem -Path . -Filter open62541.lib -Recurse
 
     - name: Build Flutter release app
+      run: flutter build ${{ matrix.target }} --release --no-codesign
+      if: matrix.target == 'ios'
+
+    - name: Build Flutter release app
       run: flutter build ${{ matrix.target }} --release
+      if: matrix.target != 'ios'
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
