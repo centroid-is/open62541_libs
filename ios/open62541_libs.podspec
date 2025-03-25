@@ -2,13 +2,14 @@ Pod::Spec.new do |s|
   s.name             = 'open62541_libs'
   s.version          = '0.0.1'
   s.summary          = 'Open62541 library for iOS'
-  s.description      = 'Open62541 library for iOS.'
+  s.description      = 'OPC UA Open62541 library for iOS.'
   s.homepage         = 'https://github.com/open62541/open62541'
   s.license          = { :type => 'MPL-2.0', :text => 'Mozilla Public License Version 2.0' }
   s.author           = { 'Open62541' => 'https://github.com/open62541/open62541' }
 
-  s.source           = { :path => '.' }
-  s.source_files     = 'Classes/**/*'
+  s.source = { 
+    :http => 'https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz'
+  }
   s.dependency       'Flutter'
   s.platform         = :ios, '12.0'
 

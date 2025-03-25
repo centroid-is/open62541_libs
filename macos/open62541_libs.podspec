@@ -7,9 +7,7 @@ Pod::Spec.new do |s|
   # plugin version
   s.version          = '0.0.1'
   s.summary          = 'Open62541 library for macOS.'
-  s.description      = <<-DESC
-Open62541 library for macOS.
-                       DESC
+  s.description      = 'OPC UA Open62541 library for macOS.'
   s.homepage         = 'https://github.com/open62541/open62541'
   s.license          = { :type => 'MPL-2.0', :text => 'Mozilla Public License Version 2.0' }
   s.author           = { 'Open62541' => 'https://github.com/open62541/open62541' }
