@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - open62541_libs (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - open62541_libs (from `.symlinks/plugins/open62541_libs/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  open62541_libs:
+    :path: ".symlinks/plugins/open62541_libs/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  open62541_libs: 1fc2199cf0507356cac55a5b7913be1cb6201f3f
+
+PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
+
+COCOAPODS: 1.16.2
