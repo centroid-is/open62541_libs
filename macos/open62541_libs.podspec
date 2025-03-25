@@ -19,23 +19,37 @@ Open62541 library for macOS.
   }
 
   s.prepare_command = <<-CMD
-    pwd
-    ls -la
-    curl -L https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz -o open62541.tar.gz
-    tar xzf open62541.tar.gz
-    cd open62541-79e47f89837bc5e8f710d501e2afcd8ad71b0a28
-    cmake -B build -DUA_LOGLEVEL=100 -DBUILD_SHARED_LIBS=OFF -DUA_ENABLE_INLINABLE_EXPORT=ON -DCMAKE_BUILD_TYPE=Release
-    cmake --build build
-    mkdir -p ../lib
-    cp build/bin/libopen62541.a ../lib/
-  CMD
-  s.vendored_libraries = 'lib/libopen62541.a'
-  s.preserve_paths = 'open62541-1.4.11.1/**/*'
+  mkdir -p lib
+
+  MBEDTLS_VERSION="mbedtls-3.6.3"
+  echo "Building mbedtls..."
+  curl -L https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/$MBEDTLS_VERSION.tar.gz -o mbedtls.tar.gz
+  tar xzf mbedtls.tar.gz
+  cd mbedtls-$MBEDTLS_VERSION
+  cmake -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14
+  cmake --build build
+  cp build/library/libmbedtls.a ../lib/
+  cp build/library/libmbedx509.a ../lib/
+  cp build/library/libmbedcrypto.a ../lib/
+  cd ..
+  MBEDTLS_INCLUDE_DIR=$(pwd)/mbedtls-$MBEDTLS_VERSION/build/include/
+
+  OPEN62541_VERSION="79e47f89837bc5e8f710d501e2afcd8ad71b0a28"
+  echo "Building open62541 with mbedtls support..."
+  curl -L https://github.com/open62541/open62541/archive/$OPEN62541_VERSION.tar.gz -o open62541.tar.gz
+  tar xzf open62541.tar.gz
+  cd open62541-$OPEN62541_VERSION
+  cmake -B build -DUA_LOGLEVEL=100 -DBUILD_SHARED_LIBS=OFF -DUA_ENABLE_INLINABLE_EXPORT=ON -DCMAKE_BUILD_TYPE=Release -DUA_ENABLE_ENCRYPTION=MBEDTLS -DCMAKE_C_FLAGS="-I$MBEDTLS_INCLUDE_DIR" -DCMAKE_OSX_DEPLOYMENT_TARGET=10.14
+  cmake --build build
+  cp build/bin/libopen62541.a ../lib/
+CMD
+  s.vendored_libraries = [ 'lib/libopen62541.a', 'lib/libmbedtls.a', 'lib/libmbedx509.a', 'lib/libmbedcrypto.a' ]
+  s.preserve_paths = [ 'open62541-$OPEN62541_VERSION/**/*', 'mbedtls-$MBEDTLS_VERSION/**/*' ]
   s.static_framework = true
 
   s.dependency 'FlutterMacOS'
 
-  s.platform = :osx, '10.13'
+  s.platform = :osx, '10.14'
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
   }
