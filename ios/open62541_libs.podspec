@@ -48,6 +48,6 @@ Pod::Spec.new do |s|
   
   s.user_target_xcconfig = {
     'LIBRARY_SEARCH_PATHS' => '"${PODS_ROOT}/../.symlinks/plugins/open62541_libs/ios/lib"',
-    'OTHER_LDFLAGS' => '-force_load "${PODS_ROOT}/../.symlinks/plugins/open62541_libs/ios/lib/libopen62541.a"'
+    'OTHER_LDFLAGS' => '-force_load "${PODS_ROOT}/../.symlinks/plugins/open62541_libs/ios/lib/libopen62541.a" -force_load "${PODS_ROOT}/../.symlinks/plugins/open62541_libs/ios/lib/libmbedtls.a" -force_load "${PODS_ROOT}/../.symlinks/plugins/open62541_libs/ios/lib/libmbedx509.a" -force_load "${PODS_ROOT}/../.symlinks/plugins/open62541_libs/ios/lib/libmbedcrypto.a"'
   }
 end
