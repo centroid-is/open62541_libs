@@ -52,7 +52,7 @@ jobs:
       run: flutter pub get
 
     - name: Build Flutter debug app
-      run: flutter build ${{ matrix.target }} --debug --no-codesign
+      run: flutter build ${{ matrix.target }} -v --debug --no-codesign
       if: matrix.target == 'ios'
 
     - name: Build Flutter debug app
