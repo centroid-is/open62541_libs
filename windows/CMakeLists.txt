@@ -1,44 +1,65 @@
 # The Flutter tooling requires that developers have CMake 3.10 or later
-# installed. You should not increase this version, as doing so will cause
-# the plugin to fail to compile for some customers of the plugin.
 cmake_minimum_required(VERSION 3.10)
+
+# # Manipulate BINARY_NAME within this file
+# cmake_policy(SET CMP0079 NEW)
 
 # Project-level configuration.
 set(PROJECT_NAME "open62541_libs")
 project(${PROJECT_NAME} LANGUAGES C)
 
-# Download and build open62541
-include(ExternalProject)
-ExternalProject_Add(open62541
-  # TODO: wait for this PR to be merged: https://github.com/open62541/open62541/pull/7177
-  URL https://github.com/centroid-is/open62541/archive/50fe223c55c8eafe4937e50104cab35a1514a3a0.tar.gz
-  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-  BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/open62541"
-  CMAKE_ARGS
-    -DCMAKE_BUILD_TYPE=Release
-    -DUA_LOGLEVEL=100
-    -DBUILD_SHARED_LIBS=OFF
-    -DUA_ENABLE_INLINABLE_EXPORT=ON
-    -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF
-  BUILD_IN_SOURCE 0
-  INSTALL_COMMAND ""
+# # Global configuration
+# set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "")
+# set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF CACHE INTERNAL "")
+# # A BIG TODO this is not great, but windows is not our primary target
+# set(MY_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
+
+# # Configure open62541 build options
+# set(UA_ENABLE_DEBUG_SANITIZER OFF CACHE BOOL "Disable sanitizers" FORCE)
+# set(UA_LOGLEVEL 100 CACHE INTERNAL "")
+# set(UA_ENABLE_ENCRYPTION "MBEDTLS" CACHE STRING "" FORCE)
+# set(UA_ENABLE_INLINABLE_EXPORT ON CACHE INTERNAL "")
+
+# Use FetchContent
+include(FetchContent)
+
+# set(MBEDTLS_FATAL_WARNINGS OFF)
+# set(ENABLE_TESTING OFF CACHE BOOL "Disable mbedTLS tests" FORCE)
+# set(ENABLE_PROGRAMS OFF CACHE BOOL "Disable mbedTLS programs" FORCE)
+# set(USE_STATIC_MBEDTLS_LIBRARY ON)
+
+FetchContent_Declare(
+  mbedtls
+  GIT_REPOSITORY https://github.com/Mbed-TLS/mbedtls.git
+  GIT_TAG v3.6.2
+  GIT_SUBMODULES framework  # Enable submodule fetch
 )
 
-# Get the build directory for the external project
-ExternalProject_Get_Property(open62541 BINARY_DIR)
+FetchContent_MakeAvailable(mbedtls)
 
-if(WIN32)
-  set(RELEASE_LIB "${BINARY_DIR}/bin/Release/open62541.lib")
-  set(DEBUG_LIB "${BINARY_DIR}/bin/Debug/open62541.lib")
-  # A BIG TODO, I dont know how to determine which library is used
-  # The release argument above is not used for some reason
-  set(open62541_libs_bundled_libraries
-    "${DEBUG_LIB}"
-    PARENT_SCOPE
-  )
-else()
-  set(open62541_libs_bundled_libraries
-    "${BINARY_DIR}/bin/libopen62541.a"
-    PARENT_SCOPE
-  )
-endif()
+# set(MBEDTLS_INCLUDE_DIRS ${mbedtls_SOURCE_DIR}/include)
+# set(MBEDTLS_LIBRARY ${mbedtls_BINARY_DIR}/library/${MY_BUILD_TYPE}/mbedtls.lib)
+# set(MBEDX509_LIBRARY ${mbedtls_BINARY_DIR}/library/${MY_BUILD_TYPE}/mbedx509.lib)
+# set(MBEDCRYPTO_LIBRARY ${mbedtls_BINARY_DIR}/library/${MY_BUILD_TYPE}/mbedcrypto.lib)
+# # Declare open62541 after mbedTLS
+# FetchContent_Declare(
+#   open62541
+#   URL https://github.com/open62541/open62541/archive/79e47f89837bc5e8f710d501e2afcd8ad71b0a28.tar.gz
+# )
+
+# # Make the content available
+# FetchContent_MakeAvailable(open62541)
+
+# target_link_libraries(${BINARY_NAME} PRIVATE
+#   ${MBEDTLS_LIBRARY}
+#   ${MBEDX509_LIBRARY}
+#   ${MBEDCRYPTO_LIBRARY}
+#   open62541
+# )
+
+# add_dependencies(${BINARY_NAME} open62541)
+# target_link_libraries(${BINARY_NAME} PRIVATE
+#   ws2_32
+#   iphlpapi
+# )
+# target_link_options(${BINARY_NAME} PRIVATE "/WHOLEARCHIVE:${CMAKE_BINARY_DIR}/bin/${MY_BUILD_TYPE}/open62541.lib")
