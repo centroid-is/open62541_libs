@@ -104,26 +104,6 @@ Enable networking, otherwise it will fail silently.
 	<true/>
 ```
 
-## Linux
-
-Tweak the linker in the CMakeLists.txt file to include all symbols from the open62541 library.
-
-```
-# Make sure the open62541 library is built before the binary
-add_dependencies(${BINARY_NAME} open62541)
-# Include all symbols from the open62541 library
-target_link_options(${BINARY_NAME} PRIVATE 
-  "-Wl,--whole-archive" 
-  "${PROJECT_BINARY_DIR}/plugins/open62541_libs/open62541-prefix/src/open62541-build/bin/libopen62541.a"
-  "-Wl,--no-whole-archive"
-)
-# Add the -rdynamic flag to export all symbols of the executable / open62541 library
-set_target_properties(${BINARY_NAME} PROPERTIES
-    ENABLE_EXPORTS ON
-    LINK_FLAGS "-rdynamic"
-)
-```
-
 ## Windows
 
 Tweak the linker in the CMakeLists.txt file to include all symbols from the open62541 library.
