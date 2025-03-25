@@ -6,8 +6,8 @@ Pod::Spec.new do |s|
   Open62541 library for iOS.
   DESC
   s.homepage         = 'https://github.com/open62541/open62541'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.license          = { :type => 'MPL-2.0', :text => 'Mozilla Public License Version 2.0' }
+  s.author           = { 'Open62541' => 'https://github.com/open62541/open62541' }
 
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
