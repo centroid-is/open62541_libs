@@ -14,10 +14,19 @@ jobs:
         include:
           - os: ubuntu-latest
             name: linux
+            target: linux
           - os: macos-latest
             name: macos
+            target: macos
           - os: windows-latest
             name: windows
+            target: windows
+          - os: macos-latest
+            name: ios
+            target: ios
+          - os: ubuntu-latest
+            name: android
+            target: apk
     
     runs-on: ${{ matrix.os }}
     defaults:
@@ -39,12 +48,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y libgtk-3-dev
 
-
     - name: Get Flutter dependencies
       run: flutter pub get
 
     - name: Build Flutter debug app
-      run: flutter build ${{ matrix.name }} --debug
+      run: flutter build ${{ matrix.target }} --debug
 
     - name: Where is the build?
       if: failure() && matrix.os == 'windows-latest'
@@ -53,10 +61,10 @@ jobs:
         Get-ChildItem -Path . -Filter open62541.lib -Recurse
 
     - name: Build Flutter release app
-      run: flutter build ${{ matrix.name }} --release
+      run: flutter build ${{ matrix.target }} --release
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: flutter-app-${{ matrix.name }}
-        path: example/build/${{ matrix.name }}/
+        path: example/build/${{ matrix.target }}/
