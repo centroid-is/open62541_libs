@@ -104,21 +104,6 @@ Enable networking, otherwise it will fail silently.
 	<true/>
 ```
 
-## Windows
-
-Tweak the linker in the CMakeLists.txt file to include all symbols from the open62541 library.
-
-```
-target_link_libraries(${BINARY_NAME} PRIVATE
-  ws2_32
-  iphlpapi
-)
-
-target_link_options(${BINARY_NAME} PRIVATE
-  "/WHOLEARCHIVE:${open62541_libs_bundled_libraries}"
-)
-```
-
 ## Android
 
 ```
