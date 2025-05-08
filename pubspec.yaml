@@ -1,6 +1,6 @@
 name: open62541_libs
 description: "Open62541 library for multiple platforms."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/centroid-is/open62541_libs
 issue_tracker: https://github.com/centroid-is/open62541_libs/issues
 
@@ -24,4 +24,6 @@ flutter:
       macos:
         ffiPlugin: true
       windows:
+        ffiPlugin: true
+      elinux:
         ffiPlugin: true
