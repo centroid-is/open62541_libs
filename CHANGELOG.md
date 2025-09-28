@@ -1,3 +1,6 @@
+## 0.0.3
+* Disable multithreading for all platforms to be aligned with the dart binding package.
+
 ## 0.0.2
 
 * Add cmake for platform elinux.
