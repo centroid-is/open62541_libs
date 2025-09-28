@@ -19,6 +19,7 @@ ExternalProject_Add(mbedtls
     -DBUILD_SHARED_LIBS=OFF
     -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/mbedtls
     -DCMAKE_BUILD_TYPE=Release
+  BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
 )
 
 set(MBEDTLS_INCLUDE_DIRS ${CMAKE_BINARY_DIR}/mbedtls/include)
@@ -42,6 +43,7 @@ ExternalProject_Add(open62541
     -DMBEDX509_LIBRARY=${MBEDX509_LIBRARY}
     -DMBEDCRYPTO_LIBRARY=${MBEDCRYPTO_LIBRARY}
     -DUA_MULTITHREADING=0
+  BUILD_COMMAND ${CMAKE_COMMAND} --build . --config Release
 )
 
 target_link_libraries(${BINARY_NAME} PRIVATE
