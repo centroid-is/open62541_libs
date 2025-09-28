@@ -27,7 +27,7 @@ set(MBEDX509_LIBRARY ${CMAKE_BINARY_DIR}/mbedtls/lib/mbedx509.lib)
 set(MBEDCRYPTO_LIBRARY ${CMAKE_BINARY_DIR}/mbedtls/lib/mbedcrypto.lib)
 
 ExternalProject_Add(open62541
-  URL https://github.com/centroid-is/open62541/archive/50fe223c55c8eafe4937e50104cab35a1514a3a0.tar.gz
+  URL https://github.com/centroid-is/open62541/archive/ccd63c59cc089a089fcc8b54d19c578a5581fe85.tar.gz
   CMAKE_ARGS 
     -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF
     -DBUILD_SHARED_LIBS=OFF
@@ -41,6 +41,7 @@ ExternalProject_Add(open62541
     -DMBEDTLS_LIBRARY=${MBEDTLS_LIBRARY}
     -DMBEDX509_LIBRARY=${MBEDX509_LIBRARY}
     -DMBEDCRYPTO_LIBRARY=${MBEDCRYPTO_LIBRARY}
+    -DUA_MULTITHREADING=0
 )
 
 target_link_libraries(${BINARY_NAME} PRIVATE
