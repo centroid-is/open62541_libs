@@ -1,3 +1,6 @@
+## 0.0.4
+* Disable dead code stripping on ios release mode
+
 ## 0.0.3
 * Disable multithreading for all platforms to be aligned with the dart binding package.
 
