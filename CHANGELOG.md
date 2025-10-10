@@ -1,3 +1,6 @@
+## 0.0.5
+* Disable stripping of installed product ios
+
 ## 0.0.4
 * Disable dead code stripping on ios release mode
 
